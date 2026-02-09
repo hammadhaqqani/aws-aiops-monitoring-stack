@@ -1,0 +1,142 @@
+{
+  "dashboard": {
+    "title": "AWS AIOps Infrastructure Overview",
+    "tags": ["aws", "aiops", "monitoring"],
+    "timezone": "browser",
+    "schemaVersion": 27,
+    "version": 1,
+    "refresh": "30s",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Lambda Invocations",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+        "targets": [
+          {
+            "expr": "sum(rate(aws_lambda_invocations_total[5m]))",
+            "legendFormat": "Invocations"
+          }
+        ],
+        "yaxes": [
+          { "format": "short" },
+          { "format": "short" }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Lambda Errors",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+        "targets": [
+          {
+            "expr": "sum(rate(aws_lambda_errors_total[5m]))",
+            "legendFormat": "Errors"
+          }
+        ],
+        "yaxes": [
+          { "format": "short" },
+          { "format": "short" }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Anomaly Scores",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+        "targets": [
+          {
+            "expr": "avg(aws_aiops_anomaly_score)",
+            "legendFormat": "Anomaly Score"
+          }
+        ],
+        "yaxes": [
+          { "format": "short", "min": 0, "max": 1 },
+          { "format": "short" }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "ALB Response Time",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+        "targets": [
+          {
+            "expr": "avg(aws_alb_target_response_time_seconds)",
+            "legendFormat": "Response Time"
+          }
+        ],
+        "yaxes": [
+          { "format": "s" },
+          { "format": "short" }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Error Rate",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 6, "x": 0, "y": 16 },
+        "targets": [
+          {
+            "expr": "sum(rate(aws_lambda_errors_total[5m])) / sum(rate(aws_lambda_invocations_total[5m])) * 100",
+            "legendFormat": "Error Rate %"
+          }
+        ],
+        "options": {
+          "unit": "percent"
+        }
+      },
+      {
+        "id": 6,
+        "title": "Active Alarms",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 6, "x": 6, "y": 16 },
+        "targets": [
+          {
+            "expr": "count(aws_cloudwatch_alarm_state == 1)",
+            "legendFormat": "Active Alarms"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Cost Anomalies",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 6, "x": 12, "y": 16 },
+        "targets": [
+          {
+            "expr": "count(aws_cost_anomaly_detected == 1)",
+            "legendFormat": "Cost Anomalies"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Lambda Duration",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 24, "x": 0, "y": 20 },
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(aws_lambda_duration_seconds_bucket[5m])) by (le))",
+            "legendFormat": "p95 Duration"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum(rate(aws_lambda_duration_seconds_bucket[5m])) by (le))",
+            "legendFormat": "p99 Duration"
+          }
+        ],
+        "yaxes": [
+          { "format": "s" },
+          { "format": "short" }
+        ]
+      }
+    ],
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": ["10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"]
+    }
+  }
+}

@@ -1,0 +1,4 @@
+# Copy this file to terraform.tfvars and fill in your values
+
+slack_webhook_url = "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+pagerduty_integration_key = "your-pagerduty-integration-key"

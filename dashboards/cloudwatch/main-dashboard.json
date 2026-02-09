@@ -1,0 +1,86 @@
+{
+  "widgets": [
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 0,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          ["AWS/Lambda", "Invocations", { "stat": "Sum", "period": 300 }],
+          [".", "Errors", { "stat": "Sum", "period": 300 }],
+          [".", "Duration", { "stat": "Average", "period": 300 }],
+          [".", "Throttles", { "stat": "Sum", "period": 300 }]
+        ],
+        "period": 300,
+        "stat": "Average",
+        "region": "us-east-1",
+        "title": "Lambda Metrics Overview"
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 0,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          ["AIOps/LogAnalysis", "AnomalyScore", { "stat": "Average", "period": 300 }],
+          ["AIOps/AnomalyScores", "AnomalyScore", { "stat": "Average", "period": 300 }]
+        ],
+        "period": 300,
+        "stat": "Average",
+        "region": "us-east-1",
+        "title": "AIOps Anomaly Scores"
+      }
+    },
+    {
+      "type": "log",
+      "x": 0,
+      "y": 6,
+      "width": 24,
+      "height": 6,
+      "properties": {
+        "query": "SOURCE '/aws/lambda' | fields @timestamp, @message\n| filter @message like /ERROR/ or @message like /FATAL/\n| sort @timestamp desc\n| limit 100",
+        "region": "us-east-1",
+        "title": "Recent Error Logs"
+      }
+    },
+    {
+      "type": "metric",
+      "x": 0,
+      "y": 12,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          ["AWS/ApplicationELB", "TargetResponseTime", { "stat": "Average", "period": 300 }],
+          [".", "RequestCount", { "stat": "Sum", "period": 300 }],
+          [".", "HTTPCode_Target_5XX_Count", { "stat": "Sum", "period": 300 }]
+        ],
+        "period": 300,
+        "stat": "Average",
+        "region": "us-east-1",
+        "title": "Application Load Balancer Metrics"
+      }
+    },
+    {
+      "type": "metric",
+      "x": 12,
+      "y": 12,
+      "width": 12,
+      "height": 6,
+      "properties": {
+        "metrics": [
+          ["AWS/Billing", "EstimatedCharges", { "stat": "Maximum", "period": 86400 }]
+        ],
+        "period": 86400,
+        "stat": "Maximum",
+        "region": "us-east-1",
+        "title": "Estimated AWS Charges (Daily)"
+      }
+    }
+  ]
+}

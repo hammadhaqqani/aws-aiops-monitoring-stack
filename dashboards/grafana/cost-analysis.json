@@ -1,0 +1,126 @@
+{
+  "dashboard": {
+    "title": "AWS AIOps Cost Analysis",
+    "tags": ["aws", "cost", "aiops"],
+    "timezone": "browser",
+    "schemaVersion": 27,
+    "version": 1,
+    "refresh": "1h",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Daily AWS Charges",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 24, "x": 0, "y": 0 },
+        "targets": [
+          {
+            "expr": "sum(aws_billing_estimated_charges)",
+            "legendFormat": "Daily Charges"
+          }
+        ],
+        "yaxes": [
+          { "format": "currencyUSD" },
+          { "format": "short" }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Cost by Service",
+        "type": "piechart",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+        "targets": [
+          {
+            "expr": "sum(aws_billing_estimated_charges) by (service)",
+            "legendFormat": "{{service}}"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Cost Anomaly Detection",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+        "targets": [
+          {
+            "expr": "aws_cost_anomaly_score",
+            "legendFormat": "Anomaly Score"
+          }
+        ],
+        "yaxes": [
+          { "format": "short", "min": 0, "max": 1 },
+          { "format": "short" }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Lambda Cost Drivers",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 },
+        "targets": [
+          {
+            "expr": "sum(rate(aws_lambda_invocations_total[1h])) * 0.0000002",
+            "legendFormat": "Invocation Cost"
+          },
+          {
+            "expr": "sum(rate(aws_lambda_duration_seconds_total[1h])) * 0.0000166667",
+            "legendFormat": "Duration Cost"
+          }
+        ],
+        "yaxes": [
+          { "format": "currencyUSD" },
+          { "format": "short" }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Monthly Cost Forecast",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 },
+        "targets": [
+          {
+            "expr": "predict_linear(aws_billing_estimated_charges[7d], 30 * 24 * 3600)",
+            "legendFormat": "Forecasted Monthly Cost"
+          }
+        ],
+        "yaxes": [
+          { "format": "currencyUSD" },
+          { "format": "short" }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Cost Efficiency Metrics",
+        "type": "stat",
+        "gridPos": { "h": 4, "w": 8, "x": 0, "y": 24 },
+        "targets": [
+          {
+            "expr": "sum(aws_billing_estimated_charges) / sum(aws_lambda_invocations_total)",
+            "legendFormat": "Cost per Invocation"
+          }
+        ],
+        "options": {
+          "unit": "currencyUSD"
+        }
+      },
+      {
+        "id": 7,
+        "title": "Cost Savings Opportunities",
+        "type": "table",
+        "gridPos": { "h": 8, "w": 16, "x": 8, "y": 24 },
+        "targets": [
+          {
+            "expr": "topk(10, sum(aws_billing_estimated_charges) by (service))",
+            "legendFormat": "{{service}}"
+          }
+        ]
+      }
+    ],
+    "time": {
+      "from": "now-30d",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": ["1h", "6h", "12h", "1d"]
+    }
+  }
+}
