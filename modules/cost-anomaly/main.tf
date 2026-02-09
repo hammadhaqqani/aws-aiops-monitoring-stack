@@ -1,10 +1,8 @@
 # Cost Anomaly Detection Monitor
 resource "aws_ce_anomaly_monitor" "cost_monitor" {
-  name         = "${var.project_name}-${var.monitor_name}-${var.environment}"
-  monitor_type = "DIMENSIONAL"
-  monitor_spec = jsonencode({
-    Dimension = "SERVICE"
-  })
+  name              = "${var.project_name}-${var.monitor_name}-${var.environment}"
+  monitor_type      = "DIMENSIONAL"
+  monitor_dimension = "SERVICE"
 
   tags = {
     Name = "${var.project_name}-cost-monitor"
