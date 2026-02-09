@@ -10,7 +10,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda_errors" {
   threshold           = var.lambda_error_threshold
   alarm_description   = "This metric monitors lambda function errors"
   alarm_actions       = [var.sns_topic_arn]
-  treat_missing_data = "notBreaching"
+  treat_missing_data  = "notBreaching"
 
   dimensions = {
     FunctionName = "${var.project_name}-*"
@@ -33,7 +33,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda_duration" {
   threshold           = var.lambda_duration_threshold
   alarm_description   = "This metric monitors lambda function duration"
   alarm_actions       = [var.sns_topic_arn]
-  treat_missing_data = "notBreaching"
+  treat_missing_data  = "notBreaching"
 
   dimensions = {
     FunctionName = "${var.project_name}-*"
@@ -56,7 +56,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda_throttles" {
   threshold           = 1
   alarm_description   = "This metric monitors lambda function throttles"
   alarm_actions       = [var.sns_topic_arn]
-  treat_missing_data = "notBreaching"
+  treat_missing_data  = "notBreaching"
 
   dimensions = {
     FunctionName = "${var.project_name}-*"
@@ -95,7 +95,7 @@ resource "aws_cloudwatch_metric_alarm" "log_errors" {
   threshold           = 10
   alarm_description   = "This metric monitors error patterns in logs"
   alarm_actions       = [var.sns_topic_arn]
-  treat_missing_data = "notBreaching"
+  treat_missing_data  = "notBreaching"
 
   tags = {
     Name = "${var.project_name}-log-errors-alarm"

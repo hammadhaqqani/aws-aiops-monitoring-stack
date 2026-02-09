@@ -3,7 +3,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda_duration_anomaly" {
   alarm_name          = "${var.project_name}-lambda-duration-anomaly-${var.environment}"
   comparison_operator = "GreaterThanUpperThreshold"
   evaluation_periods  = 2
-  threshold_metric_id  = "e1"
+  threshold_metric_id = "e1"
   alarm_description   = "This alarm triggers when Lambda duration exceeds expected range"
 
   metric_query {

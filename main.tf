@@ -108,7 +108,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
           "bedrock:InvokeModel",
           "bedrock:InvokeModelWithResponseStream"
         ]
-        Resource = var.enable_bedrock ? "arn:aws:bedrock:${var.region}::foundation-model/${var.bedrock_model_id}" : "*"
+        Resource  = var.enable_bedrock ? "arn:aws:bedrock:${var.region}::foundation-model/${var.bedrock_model_id}" : "*"
         Condition = var.enable_bedrock ? {} : null
       }
     ]
@@ -138,10 +138,10 @@ module "cloudwatch_dashboards" {
 module "cloudwatch_alarms" {
   source = "./modules/cloudwatch-alarms"
 
-  project_name     = var.project_name
-  environment      = var.environment
-  sns_topic_arn    = aws_sns_topic.aiops_alerts.arn
-  log_groups       = var.log_groups
+  project_name  = var.project_name
+  environment   = var.environment
+  sns_topic_arn = aws_sns_topic.aiops_alerts.arn
+  log_groups    = var.log_groups
 }
 
 # Module: Anomaly Detection
@@ -171,10 +171,10 @@ module "cost_anomaly" {
 module "notifications" {
   source = "./modules/notifications"
 
-  project_name            = var.project_name
-  environment             = var.environment
-  sns_topic_arn           = aws_sns_topic.aiops_alerts.arn
-  slack_webhook_url       = var.slack_webhook_url
+  project_name              = var.project_name
+  environment               = var.environment
+  sns_topic_arn             = aws_sns_topic.aiops_alerts.arn
+  slack_webhook_url         = var.slack_webhook_url
   pagerduty_integration_key = var.pagerduty_integration_key
 }
 
@@ -191,10 +191,10 @@ resource "aws_lambda_function" "log_analyzer" {
 
   environment {
     variables = {
-      SNS_TOPIC_ARN     = aws_sns_topic.aiops_alerts.arn
-      ENABLE_BEDROCK    = tostring(var.enable_bedrock)
-      BEDROCK_MODEL_ID  = var.bedrock_model_id
-      LOG_LEVEL         = "INFO"
+      SNS_TOPIC_ARN    = aws_sns_topic.aiops_alerts.arn
+      ENABLE_BEDROCK   = tostring(var.enable_bedrock)
+      BEDROCK_MODEL_ID = var.bedrock_model_id
+      LOG_LEVEL        = "INFO"
     }
   }
 

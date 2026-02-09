@@ -1,8 +1,8 @@
 # Cost Anomaly Detection Monitor
 resource "aws_ce_anomaly_monitor" "cost_monitor" {
-  name              = "${var.project_name}-${var.monitor_name}-${var.environment}"
-  monitor_type      = "DIMENSIONAL"
-  monitor_spec      = jsonencode({
+  name         = "${var.project_name}-${var.monitor_name}-${var.environment}"
+  monitor_type = "DIMENSIONAL"
+  monitor_spec = jsonencode({
     Dimension = "SERVICE"
   })
 
@@ -13,9 +13,9 @@ resource "aws_ce_anomaly_monitor" "cost_monitor" {
 
 # Cost Anomaly Detection Subscription
 resource "aws_ce_anomaly_subscription" "cost_subscription" {
-  name      = "${var.project_name}-cost-subscription-${var.environment}"
+  name             = "${var.project_name}-cost-subscription-${var.environment}"
   monitor_arn_list = [aws_ce_anomaly_monitor.cost_monitor.arn]
-  frequency = "DAILY"
+  frequency        = "DAILY"
   threshold_expression {
     dimension {
       key           = "ANOMALY_TOTAL_IMPACT_ABSOLUTE"

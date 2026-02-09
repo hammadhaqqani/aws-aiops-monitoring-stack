@@ -31,7 +31,7 @@ resource "aws_cloudwatch_dashboard" "main" {
         height = 6
 
         properties = {
-          query = "SOURCE '${length(var.log_groups) > 0 ? var.log_groups[0] : "/aws/lambda"}' | fields @timestamp, @message\n| filter @message like /ERROR/\n| sort @timestamp desc\n| limit 100"
+          query  = "SOURCE '${length(var.log_groups) > 0 ? var.log_groups[0] : "/aws/lambda"}' | fields @timestamp, @message\n| filter @message like /ERROR/\n| sort @timestamp desc\n| limit 100"
           region = "us-east-1"
           title  = "Recent Error Logs"
         }

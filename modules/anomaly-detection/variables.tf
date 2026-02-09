@@ -16,20 +16,20 @@ variable "sns_topic_arn" {
 variable "anomaly_detection_metrics" {
   description = "List of metrics to enable anomaly detection for"
   type = list(object({
-    namespace = string
+    namespace   = string
     metric_name = string
-    statistic = string
+    statistic   = string
   }))
   default = [
     {
-      namespace  = "AWS/Lambda"
+      namespace   = "AWS/Lambda"
       metric_name = "Duration"
-      statistic  = "Average"
+      statistic   = "Average"
     },
     {
-      namespace  = "AWS/Lambda"
+      namespace   = "AWS/Lambda"
       metric_name = "Errors"
-      statistic  = "Sum"
+      statistic   = "Sum"
     }
   ]
 }

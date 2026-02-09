@@ -29,7 +29,7 @@ data "archive_file" "slack_notifier_zip" {
   type        = "zip"
   output_path = "${path.module}/slack-notifier.zip"
   source {
-    content = <<EOF
+    content  = <<EOF
 import json
 import urllib3
 import os
@@ -117,7 +117,7 @@ data "archive_file" "pagerduty_notifier_zip" {
   type        = "zip"
   output_path = "${path.module}/pagerduty-notifier.zip"
   source {
-    content = <<EOF
+    content  = <<EOF
 import json
 import urllib3
 import os

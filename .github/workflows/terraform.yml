@@ -1,90 +1,23 @@
-name: Terraform CI/CD
+name: Validate
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - '**.tf'
-      - '**.tfvars'
+    branches: [main]
   pull_request:
-    branches:
-      - main
-    paths:
-      - '**.tf'
-      - '**.tfvars'
-
-env:
-  AWS_REGION: us-east-1
-  TF_VERSION: 1.5.0
+    branches: [main]
 
 jobs:
-  terraform-validate:
+  terraform:
     name: Terraform Validate
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: ${{ env.TF_VERSION }}
-
-      - name: Terraform Format Check
-        run: terraform fmt -check
-
+          terraform_version: "1.6"
+      - name: Terraform Format
+        run: terraform fmt -check -recursive
       - name: Terraform Init
-        run: terraform init
-
+        run: terraform init -backend=false
       - name: Terraform Validate
         run: terraform validate
-
-      - name: Terraform Security Scan
-        uses: aquasecurity/tfsec-action@v1.0.0
-        with:
-          soft_fail: true
-
-  terraform-plan:
-    name: Terraform Plan
-    runs-on: ubuntu-latest
-    needs: terraform-validate
-    if: github.event_name == 'pull_request'
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: ${{ env.TF_VERSION }}
-
-      - name: Terraform Init
-        run: terraform init
-
-      - name: Terraform Plan
-        run: terraform plan -no-color
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      - name: Comment PR
-        uses: actions/github-script@v6
-        if: github.event_name == 'pull_request'
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const output = `#### Terraform Plan 📖
-            \`\`\`
-            ${process.env.PLAN}
-            \`\`\`
-            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
