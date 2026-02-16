@@ -1,8 +1,11 @@
 # AWS AIOps Monitoring Stack
 
+[![Terraform](https://github.com/hammadhaqqani/aws-aiops-monitoring-stack/actions/workflows/terraform.yml/badge.svg)](https://github.com/hammadhaqqani/aws-aiops-monitoring-stack/actions/workflows/terraform.yml)
+[![GitHub Pages](https://github.com/hammadhaqqani/aws-aiops-monitoring-stack/actions/workflows/pages.yml/badge.svg)](https://hammadhaqqani.github.io/aws-aiops-monitoring-stack/)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Terraform](https://img.shields.io/badge/terraform->=1.0-blue.svg)
 ![AWS](https://img.shields.io/badge/AWS-Production%20Ready-orange.svg)
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-ffdd00?style=flat&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/hammadhaqqani)
 
 > AI-powered monitoring and observability stack for AWS using CloudWatch, Lambda-based anomaly detection, Grafana dashboards, and intelligent alerting
 
